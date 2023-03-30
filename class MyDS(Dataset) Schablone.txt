@@ -1,0 +1,28 @@
+class MyDS(Dataset):
+	def __init__(self, file_path, size, is_train):
+		self.file_path = file_path
+		self.is_train = is_train   //trainingsdaten
+		
+
+	def __len__(self):  //Anzahl Bilder/Daten
+		if self.is_train:
+			return ...
+		else:
+			return ...
+
+	def __getitem__(self,ndx):
+		if self.is_train:
+			if transform:
+				img = transform(img)
+			return img, label
+			
+		else
+			return...
+		
+
+Anwendung:
+	train_ds = myDS("C:/user/...",True)
+	print(len(train_ds))
+	print(len(train_ds[17])
+	
+	
