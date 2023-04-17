@@ -1,14 +1,18 @@
 import csv
 
+#STOP 14 -> 0
+#Rechts 33 -> 1
+#Links 34 -> 2
+#Kreis 40 -> 3
 
 
-def make_a_list():
+def load():
     
     temp = []                 # # Example: [(152,2), (152,2) ...] [(Bild_Zahl, Klasse), ..., (Bild_Zahl_n, Klasse_n)]  n = [0,1,2,3,4]
 
     for zahl in range(5): # 0,1,2,3,4
     
-        filename = "C:/Users/username/dataset/" + str(zahl) + "/" + str(zahl) + ".csv"
+        filename = "C:/gitdir/machine-learning-project/" + str(zahl) + "/" + str(zahl) + ".csv"
         
         with open(filename, "r", newline='') as csv_bild:
             
@@ -16,15 +20,15 @@ def make_a_list():
             
             for zeile in reader:
                 
-                # Muss der Inhalt Integer sein??
+                # Form tuple(String Dateiname, Klasse als int)
+                a = (zeile[0], int(zeile[1]))
+                temp.append(a) 
                 
-                zeile_integer = tuple([int(e) for e in zeile]) # Example: (152,2) (Bild_Zahl, Klasse)
-                
-                temp.append(tuple(zeile_integer)) 
-            
     
     return temp
 
-
+if __name__ == '__main__':
+    
+    print(make_a_list())
 
 
