@@ -4,12 +4,14 @@ Created on Mon Apr 17 13:48:40 2023
 
 @author: NHS-Notebook
 """
-
+from PIL import Image
 import torch
 from torch.utils.data import Dataset, DataLoader
 import torchvision
 import os
 import csv_dateien_lesen as lib
+import cv2
+import matplotlib.pyplot as plt
 
 class MyDataset(Dataset):
     def __init__(self, is_train=True, transform=None):
@@ -60,14 +62,25 @@ if __name__ == '__main__':
     # Test your dataset first in a pure Python/Numpy environment, you do not need to know
     # much about Torch for it
     train_ds = MyDataset()
-    demo1(train_ds)
-    demo2(train_ds)
+    #demo1(train_ds)
+    #demo2(train_ds)
     
     #train_dl = DataLoader(train_ds, batch_size=1, shuffle=True)
     #demo1(train_dl)
     #demo2(train_dl)
-    img = imread('1/'+train_ds[0][0])
-    print(img)
+    #img = cv2.imread('1/'+train_ds[0][0])
+    img = train_ds[0][0]
+    # for i in range(6,21):
+    #     img[i][6] = (0,0,0)
+    #     img[i][22] = (0,0,0)
+    # for i in range(6,22):
+    #     img[6][i] = (0,0,0)
+    #     img[21][i] = (0,0,0)
+    cropped_img = img[5:40,6:43]
+    # der andere slice mit zwei klammern funktioniert nicht
+    #cv2.rectangle(img, (5,5),(20,21),(0,0,0),-1)
+    print (img.shape)
+    plt.imshow(cropped_img)
     # There are also well-known datasets already prepared.
     #root_dir = os.path.dirname(__file__)
     #print(root_dir)

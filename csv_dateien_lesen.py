@@ -1,4 +1,5 @@
 import csv
+import cv2
 
 #STOP 14 -> 0
 #Rechts 33 -> 1
@@ -21,7 +22,7 @@ def load():
             for zeile in reader:
                 
                 # Form tuple(String Dateiname, Klasse als int)
-                a = (zeile[0], int(zeile[1]))
+                a = (cv2.imread(zeile[1]+"/"+zeile[0]), int(zeile[1]))
                 temp.append(a) 
                 
     
