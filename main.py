@@ -63,14 +63,16 @@ if __name__ == '__main__':
     demo1(train_ds)
     demo2(train_ds)
     
-    train_dl = DataLoader(train_ds, batch_size=2, shuffle=True)
-    demo1(train_dl)
-    demo2(train_dl)
-    
+    #train_dl = DataLoader(train_ds, batch_size=1, shuffle=True)
+    #demo1(train_dl)
+    #demo2(train_dl)
+    img = imread('1/'+train_ds[0][0])
+    print(img)
     # There are also well-known datasets already prepared.
-    root_dir = os.path.dirname(__file__)
-    train_ds = torchvision.datasets.FashionMNIST(root_dir+'/fashion_mnist_data', download=True)
-    demo1(train_ds)
+    #root_dir = os.path.dirname(__file__)
+    #print(root_dir)
+    #train_ds = torchvision.datasets.FashionMNIST(root_dir+'/fashion_mnist_data', download=True)
+    #demo1(train_ds)
 
 # also try:
 #   train_ds = torchvision.datasets.MNIST(root_dir+'/mnist_data', download=True)

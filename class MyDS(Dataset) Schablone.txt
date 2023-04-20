@@ -26,3 +26,9 @@ Anwendung:
 	print(len(train_ds[17])
 	
 	
+
+it = iter(ds)
+sample = next(it)  -> [28,28][] -> leere Liste , 28px x 28px Bildgröße 
+
+it = iter(dl)
+batch = next(it)  -> [5,28,28],[5] -> fünf wegen Anzahl der Labels

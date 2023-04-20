@@ -29,6 +29,6 @@ def load():
 
 if __name__ == '__main__':
     
-    print(make_a_list())
+    print(load())
 
 
