@@ -58,46 +58,69 @@ def demo2(dl):
         print(sample)
 
 
+
+
+
+
 if __name__ == '__main__':
     # Test your dataset first in a pure Python/Numpy environment, you do not need to know
     # much about Torch for it
     train_ds = MyDataset()
+    
     #demo1(train_ds)
     #demo2(train_ds)
     
-    #train_dl = DataLoader(train_ds, batch_size=1, shuffle=True)
-    #demo1(train_dl)
-    #demo2(train_dl)
-    #img = cv2.imread('1/'+train_ds[0][0])
-    img = train_ds[0][0]
-    # for i in range(6,21):
-    #     img[i][6] = (0,0,0)
-    #     img[i][22] = (0,0,0)
-    # for i in range(6,22):
-    #     img[6][i] = (0,0,0)
-    #     img[21][i] = (0,0,0)
-    cropped_img = img[5:40,6:43]
-    # der andere slice mit zwei klammern funktioniert nicht
-    #cv2.rectangle(img, (5,5),(20,21),(0,0,0),-1)
-    print (img.shape)
-    plt.imshow(cropped_img)
+    train_dl = DataLoader(train_ds, batch_size=1, shuffle=True)
+    demo1(train_dl)
+    demo2(train_dl)
+
     # There are also well-known datasets already prepared.
     #root_dir = os.path.dirname(__file__)
     #print(root_dir)
     #train_ds = torchvision.datasets.FashionMNIST(root_dir+'/fashion_mnist_data', download=True)
     #demo1(train_ds)
 
-# also try:
-#   train_ds = torchvision.datasets.MNIST(root_dir+'/mnist_data', download=True)
-# for the MNIST data. If the download is not successful, search and copy the files 
-#   t10k-labels-idx1-ubyte.gz   and   train-labels-idx1-ubyte.gz
-# from the internet and copy it into the mnist_data/MNIST/raw directory.
+    # also try:
+    #   train_ds = torchvision.datasets.MNIST(root_dir+'/mnist_data', download=True)
+    # for the MNIST data. If the download is not successful, search and copy the files 
+    #   t10k-labels-idx1-ubyte.gz   and   train-labels-idx1-ubyte.gz
+    # from the internet and copy it into the mnist_data/MNIST/raw directory.
 
-# Remark: The MNIST server rejects standard Python requests. You may change the requesting user by adding:
-# -----------------------------------------------------
-# import urllib
-# opener = urllib.request.build_opener()
-# opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-# urllib.request.install_opener(opener)
-# -----------------------------------------------------
+    # Remark: The MNIST server rejects standard Python requests. You may change the requesting user by adding:
+    # -----------------------------------------------------
+    # import urllib
+    # opener = urllib.request.build_opener()
+    # opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+    # urllib.request.install_opener(opener)
+    # -----------------------------------------------------
+
+
+
+
+
+
+
+
+    
+    #img = cv2.imread('1/'+train_ds[0][0])
+    
+    #img = train_ds[0][0]
+   
+    # for i in range(6,21):
+    #     img[i][6] = (0,0,0)
+    #     img[i][22] = (0,0,0)
+    # for i in range(6,22):
+    #     img[6][i] = (0,0,0)
+    #     img[21][i] = (0,0,0)
+    
+    
+    #cropped_img = img[5:40,6:43]
+    # der andere slice mit zwei klammern funktioniert nicht
+    #cv2.rectangle(img, (5,5),(20,21),(0,0,0),-1)
+    
+    #print (img.shape)
+    #plt.imshow(cropped_img)
+    
+    
+
 
