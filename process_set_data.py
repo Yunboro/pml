@@ -40,7 +40,7 @@ class MyDataset(Dataset):
         
         # resize the image using opencv
         # we might have to experiment with different sizes to see which works best for your specific task and dataset.
-        img_array = cv2.resize(img_array, (26, 26), interpolation=cv2.INTER_CUBIC)
+        img_array = cv2.resize(img_array, (28, 28), interpolation=cv2.INTER_CUBIC)
         ###################################
         
         
