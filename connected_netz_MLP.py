@@ -22,21 +22,27 @@ from process_set_data import MyDataset # import but not YET used. We have to use
 class Model(nn.Module):
     def __init__(self):
         super().__init__()
-        self.flatten = nn.Flatten() # (batch_size, channels * height * width)
-        self.lin1 = nn.Linear(784, 80)
-        self.lin2 = nn.Linear(80, 30)
-        self.lin3 = nn.Linear(30, 10)
+        self.flatten = nn.Flatten() # (batch_size, channels * height * width) --> 2352=28x28x3
+        self.lin1 = nn.Linear(2352, 256)  # 80
+        self.lin2 = nn.Linear(256, 128)   # 30
+        self.lin3 = nn.Linear(128, 64)   # 10
+        self.lin4 = nn.Linear(64, 32)
+        self.lin5 = nn.Linear(32, 10)
         
     def forward(self, X0):
         X0 = self.flatten(X0) # (batch_size, channels * height * width)
         X1 = torch.relu(self.lin1(X0))
         X2 = torch.relu(self.lin2(X1))
-        X3 = torch.softmax(self.lin3(X2), dim=-1)
-        return X3
+        X3 = torch.relu(self.lin3(X2))
+        X4 = torch.relu(self.lin4(X3))
+        X5 = torch.softmax(self.lin5(X4), dim=-1)
+        
+        return X5
 
     def loss(self, Y_true, Y_pred):                                       # we put the loss fct in the class, this is not required
         Y_true_oh = torch.nn.functional.one_hot(Y_true, num_classes=10)   # recode to a one-hot tensor
         sample_loss = -(Y_true_oh*torch.log(Y_pred+1e-7)).sum(axis=1)
+        
         return sample_loss.mean()
 ####################################################################################
 
@@ -117,7 +123,7 @@ if __name__ == '__main__':
 
     
     mdl = Model()
-    hist = train(train_dl, mdl, alpha=0.001, n_epochs=3)            # We have to choose how many epochs???
+    hist = train(train_dl, mdl, alpha=0.001, n_epochs=2)            # We have to choose how many epochs???
     
     plt.plot(hist['loss'])
     plt.grid()
