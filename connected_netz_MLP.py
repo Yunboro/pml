@@ -33,22 +33,23 @@ test_dl = dataloader.DataLoader(test_ds, shuffle=False, batch_size=batch_size, n
 
 
 
-
-
 #####################################################################################
 # THE DATA consists of images of traffic signals, sourced from our dataset. With this dataset we will trained our modell. 
 
 
-
-
 train_ds = MyDataset()
- 
 
 train_dl = dataloader.DataLoader(train_ds, batch_size=1, shuffle=True)   # batch_size??? Regarding the batch size, we need to decide on a suitable value. What would be a reasonable size?
 
 
                                                                          # Do we have to flatten the data?: --> From N dimensions to one dimension
- 
+
+
+
+test_ds = MyDataset(is_train=False)
+
+test_dl = dataloader.DataLoader(test_ds, batch_size=1, shuffle=True)
+
 #####################################################################################
 
 

@@ -8,6 +8,9 @@ from PIL import Image
 import torch
 from torch.utils.data import Dataset, DataLoader
 import torchvision
+
+from torchvision import transforms
+
 import os
 import csv_dateien_lesen as lib
 import cv2
@@ -18,14 +21,55 @@ class MyDataset(Dataset):
         super().__init__()
         self.is_train = is_train
         self.transform = transform  
+        
+        
         ###################################
         # load all data if it fits into memory, otherwise put references (e. g. file paths) in a list
         if self.is_train:
-            self.data = lib.load()
+            self.data = lib.load()[0] # train_dataset_final
         else:
-            self.data = [(11.5,1), (12.5,1), (9.,1), (14.5,0), (17.,0)]
+            self.data = lib.load()[1] # val_dataset_final
         ###################################
+        
+        
+    def __getitem__(self, idx):
+        ###################################
+        # get the sample with index idx, it is self.data[idx] if all data is in memory, 
+        # otherwise acquire the data associated with the reference self.data[idx]
+        img_array, label = self.data[idx]
+        
+        # resize the image using opencv
+        # we might have to experiment with different sizes to see which works best for your specific task and dataset.
+        img_array = cv2.resize(img_array, (224, 224), interpolation=cv2.INTER_CUBIC)
+        ###################################
+        
+        
+        # convert the image to a PyTorch tensor and also scale the pixel values to be between 0 and 1
+        # This is necessary because the pixel values in the original image are usually in the range of 0 to 255, 
+        #which is too large for most neural network models.
+        img_tensor = transforms.functional.to_tensor(img_array)
+        
+        
+        if self.transform:
+            
+            # apply additional transformations if provided
+            
+            img_tensor = self.transform(img_tensor)                  # modify raw data if necessary
+        
+        
+        # By returning the image as a tensor, we ensure that the model will receive the input data in the correct format. 
+        # If we returned the image as a list of pixels, 
+        # the model would not be able to process the input data correctly.
+        
+        sample = img_tensor, label
 
+        return sample
+
+    def __len__(self):
+        return len(self.data)    
+        
+
+"""
     def __getitem__(self, idx):
         ###################################
         # get the sample with index idx, it is self.data[idx] if all data is in memory, 
@@ -38,6 +82,7 @@ class MyDataset(Dataset):
 
     def __len__(self):
         return len(self.data)
+"""
 
 
 def demo1(dl):
@@ -81,7 +126,9 @@ if __name__ == '__main__':
     #demo1(train_ds)
 
     # also try:
-    #   train_ds = torchvision.datasets.MNIST(root_dir+'/mnist_data', download=True)
+    #train_ds = torchvision.datasets.MNIST(root_dir+'/mnist_data', download=True)
+    #train_dl = DataLoader(train_ds, batch_size=1, shuffle=True)
+    #demo1(train_dl)
     # for the MNIST data. If the download is not successful, search and copy the files 
     #   t10k-labels-idx1-ubyte.gz   and   train-labels-idx1-ubyte.gz
     # from the internet and copy it into the mnist_data/MNIST/raw directory.
