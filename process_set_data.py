@@ -40,13 +40,13 @@ class MyDataset(Dataset):
         
         # resize the image using opencv
         # we might have to experiment with different sizes to see which works best for your specific task and dataset.
-        img_array = cv2.resize(img_array, (224, 224), interpolation=cv2.INTER_CUBIC)
+        img_array = cv2.resize(img_array, (26, 26), interpolation=cv2.INTER_CUBIC)
         ###################################
         
         
         # convert the image to a PyTorch tensor and also scale the pixel values to be between 0 and 1
         # This is necessary because the pixel values in the original image are usually in the range of 0 to 255, 
-        #which is too large for most neural network models.
+        # which is too large for most neural network models.
         img_tensor = transforms.functional.to_tensor(img_array)
         
         

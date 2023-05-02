@@ -11,47 +11,6 @@ import matplotlib.pyplot as plt
 
 from process_set_data import MyDataset # import but not YET used. We have to use it!!!!
 
-root_dir = os.path.dirname(__file__)
-
-batch_size = 128
-
-
-
-
-
-
-#####################################################################################
-# The data: This data is for experimantation
-train_ds = torchvision.datasets.MNIST(root_dir+'/mnist_data', train=True, download=True, 
-                                      transform=Compose([ToTensor(), Lambda(torch.flatten)]))
-test_ds = torchvision.datasets.MNIST(root_dir+'/mnist_data', train=False, download=True, 
-                                      transform=Compose([ToTensor(), Lambda(torch.flatten)]))
-train_dl = dataloader.DataLoader(train_ds, shuffle=True, batch_size=batch_size, num_workers=0, drop_last=True)
-test_dl = dataloader.DataLoader(test_ds, shuffle=False, batch_size=batch_size, num_workers=0, drop_last=True)
-#####################################################################################
-
-
-
-
-#####################################################################################
-# THE DATA consists of images of traffic signals, sourced from our dataset. With this dataset we will trained our modell. 
-
-
-train_ds = MyDataset()
-
-train_dl = dataloader.DataLoader(train_ds, batch_size=1, shuffle=True)   # batch_size??? Regarding the batch size, we need to decide on a suitable value. What would be a reasonable size?
-
-
-                                                                         # Do we have to flatten the data?: --> From N dimensions to one dimension
-
-
-
-test_ds = MyDataset(is_train=False)
-
-test_dl = dataloader.DataLoader(test_ds, batch_size=1, shuffle=True)
-
-#####################################################################################
-
 
 
 
@@ -63,11 +22,13 @@ test_dl = dataloader.DataLoader(test_ds, batch_size=1, shuffle=True)
 class Model(nn.Module):
     def __init__(self):
         super().__init__()
+        self.flatten = nn.Flatten() # (batch_size, channels * height * width)
         self.lin1 = nn.Linear(784, 80)
         self.lin2 = nn.Linear(80, 30)
         self.lin3 = nn.Linear(30, 10)
         
     def forward(self, X0):
+        X0 = self.flatten(X0) # (batch_size, channels * height * width)
         X1 = torch.relu(self.lin1(X0))
         X2 = torch.relu(self.lin2(X1))
         X3 = torch.softmax(self.lin3(X2), dim=-1)
@@ -112,6 +73,48 @@ def train(train_dl, mdl, alpha, n_epochs):
 
 if __name__ == '__main__':
     
+    
+    #####################################################################################
+    # The data: This data is take as an example
+
+    """
+    root_dir = os.path.dirname(__file__)
+
+
+    train_ds = torchvision.datasets.MNIST(root_dir+'/mnist_data', train=True, download=True, 
+                                          transform=Compose([ToTensor(), Lambda(torch.flatten)]))
+    test_ds = torchvision.datasets.MNIST(root_dir+'/mnist_data', train=False, download=True, 
+                                          transform=Compose([ToTensor(), Lambda(torch.flatten)]))
+    train_dl = dataloader.DataLoader(train_ds, shuffle=True, batch_size=batch_size, num_workers=0, drop_last=True)
+    test_dl = dataloader.DataLoader(test_ds, shuffle=False, batch_size=batch_size, num_workers=0, drop_last=True)
+
+    """
+    #####################################################################################
+
+
+
+
+    #####################################################################################
+    # THE DATA consists of images of traffic signals, sourced from our dataset. With this dataset we will trained our modell. 
+
+    batch_size = 128
+
+
+    train_ds = MyDataset()
+
+    train_dl = dataloader.DataLoader(train_ds, batch_size=3, shuffle=True)   # batch_size??? Regarding the batch size, we need to decide on a suitable value. What would be a reasonable size?
+
+
+                                                                             # Do we have to flatten the data?: --> From 3 channel to 1 channel
+
+
+
+    test_ds = MyDataset(is_train=False)
+
+    test_dl = dataloader.DataLoader(test_ds, batch_size=3, shuffle=True)
+
+    #####################################################################################
+
     
     mdl = Model()
     hist = train(train_dl, mdl, alpha=0.001, n_epochs=3)            # We have to choose how many epochs???

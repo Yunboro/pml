@@ -49,53 +49,45 @@ def load():
     
     # Form list of tuples [([[R1_image_1,G1_image_1,B1_image_1],[R2_image_1,G2_image_1,B2_image_1],...], label), ([[R1_image_2,G1_image_2,B1_image_2],[R2_image_2,G2_image_2,B2_image_2],...], label) ...]
     
-    train_dataset_final = []
     
-    for element in train_dataset:
-        
-        
-        b = (cv2.imread(element[0]), element[1])
-        train_dataset_final.append(b)
-        
+    # cv2.imread(element[0], cv2.IMREAD_GRAYSCALE)   Is the color important?? If not, we can process the image with one channel
+    train_dataset_final = [(cv2.imread(element[0]), element[1]) for element in train_dataset] 
     
     
-    val_dataset_final = []
     
-    for element in train_dataset:
-        
-        
-        c = (cv2.imread(element[0]), element[1])
-        val_dataset_final.append(c)
+    # cv2.imread(element[0], cv2.IMREAD_GRAYSCALE)   Is the color important?? If not, we can process the image with one channel
+    val_dataset_final = [(cv2.imread(element[0]), element[1]) for element in train_dataset]
+    
 
         
     return train_dataset_final, val_dataset_final
 
 
 
-
-#def load():
+"""
+def load():
     
-#    temp = []                 # # Example: [(152,2), (152,2) ...] [(Bild_Zahl, Klasse), ..., (Bild_Zahl_n, Klasse_n)]  n = [0,1,2,3,4]
+    temp = []                 # # Example: [(152,2), (152,2) ...] [(Bild_Zahl, Klasse), ..., (Bild_Zahl_n, Klasse_n)]  n = [0,1,2,3,4]
 
-#    for zahl in range(5): # 0,1,2,3,4
+    for zahl in range(5): # 0,1,2,3,4
         
     
-#        filename = "C:/Users/jorge/Desktop/Uni_nichtloeschen/hm/SS2023/gitdir/machine-learning-project/" + str(zahl) + "/" + str(zahl) + ".csv"
+        filename = "C:/Users/jorge/Desktop/Uni_nichtloeschen/hm/SS2023/gitdir/machine-learning-project/" + str(zahl) + "/" + str(zahl) + ".csv"
         
-#        with open(filename, "r", newline='') as csv_bild:
+        with open(filename, "r", newline='') as csv_bild:
             
             
-#            reader = csv.reader(csv_bild, delimiter=';') # Each row from the csv_bild is returned as a list of strings
+            reader = csv.reader(csv_bild, delimiter=';') # Each row from the csv_bild is returned as a list of strings
             
-#            for zeile in reader:
+            for zeile in reader:
                 
                 
                 # Form tuple(String Dateiname, Klasse als int)
-#                a = (cv2.imread(zeile[1]+"/"+zeile[0]), int(zeile[1]))
-#                temp.append(a)        
+                a = (cv2.imread(zeile[1]+"/"+zeile[0]), int(zeile[1]))
+                temp.append(a)        
    
-#    return temp
-
+    return temp
+"""
 
 
 
